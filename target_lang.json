@@ -1,0 +1,2152 @@
+[
+    {
+        "guid": "46161896180548012",
+        "name": "Arabic Syria-Lebanon",
+        "number_of_records": 488
+    },
+    {
+        "guid": "46161896180547995",
+        "name": "Arabic Iraq",
+        "number_of_records": 479
+    },
+    {
+        "guid": "46161896180548005",
+        "name": "Arabic Palestinian-Jordan",
+        "number_of_records": 468
+    },
+    {
+        "guid": "46161896180548086",
+        "name": "English",
+        "number_of_records": 264
+    },
+    {
+        "guid": "46161896180547994",
+        "name": "Arabic Standard",
+        "number_of_records": 244
+    },
+    {
+        "guid": "46161896180548355",
+        "name": "Turkish",
+        "number_of_records": 198
+    },
+    {
+        "guid": "46161896180548293",
+        "name": "Russian",
+        "number_of_records": 155
+    },
+    {
+        "guid": "46161896180548280",
+        "name": "Polish",
+        "number_of_records": 154
+    },
+    {
+        "guid": "46161896180548019",
+        "name": "Arabic Morocco",
+        "number_of_records": 146
+    },
+    {
+        "guid": "46161896180548020",
+        "name": "Arabic Egypt",
+        "number_of_records": 141
+    },
+    {
+        "guid": "46161896180548017",
+        "name": "Arabic Algeria",
+        "number_of_records": 139
+    },
+    {
+        "guid": "46161896180548271",
+        "name": "Farsi (Iran)",
+        "number_of_records": 139
+    },
+    {
+        "guid": "46161896180548000",
+        "name": "Arabic Gulf",
+        "number_of_records": 129
+    },
+    {
+        "guid": "46161896180548013",
+        "name": "Arabic Sudan",
+        "number_of_records": 129
+    },
+    {
+        "guid": "46161896180548024",
+        "name": "Arabic Libya",
+        "number_of_records": 122
+    },
+    {
+        "guid": "46161896180548322",
+        "name": "Spanish",
+        "number_of_records": 122
+    },
+    {
+        "guid": "46161896180548103",
+        "name": "French",
+        "number_of_records": 116
+    },
+    {
+        "guid": "46161896180548392",
+        "name": "Kurdish Kurmandji (Syria, Iraq)",
+        "number_of_records": 106
+    },
+    {
+        "guid": "46161896180548281",
+        "name": "Dari",
+        "number_of_records": 95
+    },
+    {
+        "guid": "46161896180548026",
+        "name": "Arabic Yemen",
+        "number_of_records": 67
+    },
+    {
+        "guid": "46161896180547997",
+        "name": "Arabic Saudi Arabia",
+        "number_of_records": 63
+    },
+    {
+        "guid": "46161896180548117",
+        "name": "German",
+        "number_of_records": 59
+    },
+    {
+        "guid": "46161896180548391",
+        "name": "Kurdish Kurmandji (Turkey)",
+        "number_of_records": 57
+    },
+    {
+        "guid": "46161896180548292",
+        "name": "Berber (Tarifit)",
+        "number_of_records": 48
+    },
+    {
+        "guid": "46161896180548364",
+        "name": "Ukranian",
+        "number_of_records": 47
+    },
+    {
+        "guid": "46161896180548344",
+        "name": "Tigrinya",
+        "number_of_records": 46
+    },
+    {
+        "guid": "46161896180548321",
+        "name": "Somali",
+        "number_of_records": 43
+    },
+    {
+        "guid": "46161896180547999",
+        "name": "Arabic Tunisia",
+        "number_of_records": 42
+    },
+    {
+        "guid": "46161896180548058",
+        "name": "Chinese (Mandarin)",
+        "number_of_records": 42
+    },
+    {
+        "guid": "46161896180548160",
+        "name": "Kurdish (Sorani)",
+        "number_of_records": 41
+    },
+    {
+        "guid": "46161896180548296",
+        "name": "Romanian",
+        "number_of_records": 36
+    },
+    {
+        "guid": "46161896180548149",
+        "name": "Italian",
+        "number_of_records": 35
+    },
+    {
+        "guid": "46161896180548278",
+        "name": "Portuguese",
+        "number_of_records": 34
+    },
+    {
+        "guid": "46161896180548043",
+        "name": "Bulgarian",
+        "number_of_records": 30
+    },
+    {
+        "guid": "46161896180548080",
+        "name": "Dutch Sign Language",
+        "number_of_records": 30
+    },
+    {
+        "guid": "46161896180548267",
+        "name": "Pashto",
+        "number_of_records": 26
+    },
+    {
+        "guid": "46161896180548016",
+        "name": "Armenian",
+        "number_of_records": 25
+    },
+    {
+        "guid": "46161896180548388",
+        "name": "Bosnian",
+        "number_of_records": 24
+    },
+    {
+        "guid": "46161896180548186",
+        "name": "Croatian",
+        "number_of_records": 24
+    },
+    {
+        "guid": "46161896180548303",
+        "name": "Serbian",
+        "number_of_records": 24
+    },
+    {
+        "guid": "46161896180548389",
+        "name": "Montenegrin",
+        "number_of_records": 22
+    },
+    {
+        "guid": "46161896180548007",
+        "name": "Albanian",
+        "number_of_records": 18
+    },
+    {
+        "guid": "46161896180548365",
+        "name": "Urdu",
+        "number_of_records": 17
+    },
+    {
+        "guid": "46161896180548138",
+        "name": "Hungarian",
+        "number_of_records": 16
+    },
+    {
+        "guid": "46161896180548010",
+        "name": "Amharic",
+        "number_of_records": 15
+    },
+    {
+        "guid": "46161896180548265",
+        "name": "Papiamento",
+        "number_of_records": 13
+    },
+    {
+        "guid": "46161896180548066",
+        "name": "Czech",
+        "number_of_records": 12
+    },
+    {
+        "guid": "46161896180548301",
+        "name": "Dutch (writing interpreters)",
+        "number_of_records": 12
+    },
+    {
+        "guid": "46161896180548275",
+        "name": "Punjabi (Pakistan, Afghanistan)",
+        "number_of_records": 12
+    },
+    {
+        "guid": "46161896180548124",
+        "name": "Greek",
+        "number_of_records": 11
+    },
+    {
+        "guid": "46161896180548204",
+        "name": "Lithuanian",
+        "number_of_records": 10
+    },
+    {
+        "guid": "46161896180548276",
+        "name": "Punjabi (India)",
+        "number_of_records": 10
+    },
+    {
+        "guid": "46161896180547998",
+        "name": "Arabic Oman",
+        "number_of_records": 9
+    },
+    {
+        "guid": "46161896180548384",
+        "name": "Chinese (Cantonese)",
+        "number_of_records": 9
+    },
+    {
+        "guid": "46161896180548116",
+        "name": "Georgian",
+        "number_of_records": 9
+    },
+    {
+        "guid": "46161896180548137",
+        "name": "Hindi",
+        "number_of_records": 9
+    },
+    {
+        "guid": "46161896180548314",
+        "name": "Slovak",
+        "number_of_records": 9
+    },
+    {
+        "guid": "46161896180548225",
+        "name": "Arabic Mauritania",
+        "number_of_records": 7
+    },
+    {
+        "guid": "46161896180548268",
+        "name": "Nigerian Pidgin English",
+        "number_of_records": 7
+    },
+    {
+        "guid": "46161896180548332",
+        "name": "Swahili",
+        "number_of_records": 7
+    },
+    {
+        "guid": "46161896180548338",
+        "name": "Tamil",
+        "number_of_records": 7
+    },
+    {
+        "guid": "46161896180548396",
+        "name": "North Azerbaijani",
+        "number_of_records": 6
+    },
+    {
+        "guid": "46161896180548362",
+        "name": "Berber (Tamazight)",
+        "number_of_records": 5
+    },
+    {
+        "guid": "46161896180548202",
+        "name": "Lingala",
+        "number_of_records": 5
+    },
+    {
+        "guid": "46161896180548170",
+        "name": "Mongolian (Mongolia)",
+        "number_of_records": 5
+    },
+    {
+        "guid": "46161896180548325",
+        "name": "Sranan",
+        "number_of_records": 5
+    },
+    {
+        "guid": "46161896180548348",
+        "name": "Tigré",
+        "number_of_records": 5
+    },
+    {
+        "guid": "46161896180548369",
+        "name": "Vietnamese",
+        "number_of_records": 5
+    },
+    {
+        "guid": "46161896180548018",
+        "name": "Western Armenian",
+        "number_of_records": 5
+    },
+    {
+        "guid": "46161896180548593",
+        "name": "Aramaic (Suryoyo)",
+        "number_of_records": 4
+    },
+    {
+        "guid": "46161896180548132",
+        "name": "Hebrew",
+        "number_of_records": 4
+    },
+    {
+        "guid": "46161896180548294",
+        "name": "Kinyarwanda",
+        "number_of_records": 4
+    },
+    {
+        "guid": "46161896180548393",
+        "name": "Kurdish Kurmandji (Azerbaijan)",
+        "number_of_records": 4
+    },
+    {
+        "guid": "46161896180548115",
+        "name": "Oromo",
+        "number_of_records": 4
+    },
+    {
+        "guid": "46161896180548373",
+        "name": "Pidgin Cameroon English",
+        "number_of_records": 4
+    },
+    {
+        "guid": "46161896180548345",
+        "name": "Thai",
+        "number_of_records": 4
+    },
+    {
+        "guid": "46161896180548363",
+        "name": "Uyghur",
+        "number_of_records": 4
+    },
+    {
+        "guid": "46161896180548498",
+        "name": "Gheg Albanian",
+        "number_of_records": 3
+    },
+    {
+        "guid": "46161896180548147",
+        "name": "Indonesian",
+        "number_of_records": 3
+    },
+    {
+        "guid": "46161896180548153",
+        "name": "Japanese",
+        "number_of_records": 3
+    },
+    {
+        "guid": "46161896180548295",
+        "name": "Kirundi",
+        "number_of_records": 3
+    },
+    {
+        "guid": "46161896180548198",
+        "name": "Latvian",
+        "number_of_records": 3
+    },
+    {
+        "guid": "46161896180548324",
+        "name": "Sarnami (Hindustani Carribbean)",
+        "number_of_records": 3
+    },
+    {
+        "guid": "46161896180548330",
+        "name": "Susu",
+        "number_of_records": 3
+    },
+    {
+        "guid": "46161896180548334",
+        "name": "Swedish",
+        "number_of_records": 3
+    },
+    {
+        "guid": "46161896180548592",
+        "name": "Aramaic (Suret)",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548298",
+        "name": "Belarusian",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548372",
+        "name": "Chinese (Wenzhou)",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548082",
+        "name": "Dyula",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548101",
+        "name": "Frisian",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548786",
+        "name": "Fula",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548107",
+        "name": "Futa Jallon",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548174",
+        "name": "Korean",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548721",
+        "name": "Luganda",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548287",
+        "name": "Maay",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548232",
+        "name": "Macedonian",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548241",
+        "name": "Maninka (Kankan)",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548234",
+        "name": "Maninka (Konyanka)",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548238",
+        "name": "Maninka (Western)",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548252",
+        "name": "Nepalese",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548105",
+        "name": "Pular",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548397",
+        "name": "South Azerbaijani",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548272",
+        "name": "Tajik",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548398",
+        "name": "Turkman (Iraq)",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548337",
+        "name": "Turkmen",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548361",
+        "name": "Twi",
+        "number_of_records": 2
+    },
+    {
+        "guid": "46161896180548308",
+        "name": "Arabic Chad",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548038",
+        "name": "Baluchi",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548046",
+        "name": "Bamanankan",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548045",
+        "name": "Bengali (Bangladesh)",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548305",
+        "name": "Berber (Tashelhit)",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548044",
+        "name": "Burmese",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548054",
+        "name": "Cebuano, Visayan, Bisayan",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548128",
+        "name": "Chinese (Haka)",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548333",
+        "name": "Congo Swahili",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548079",
+        "name": "Danish",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548084",
+        "name": "Edo",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548091",
+        "name": "Estonian",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548097",
+        "name": "Finnish",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548114",
+        "name": "Ga",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548142",
+        "name": "Igbo",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548151",
+        "name": "Jamaican Creole English",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548165",
+        "name": "Kabuverdianu",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548167",
+        "name": "Kermanshahi",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548899",
+        "name": "Kinyamulenge",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548184",
+        "name": "Krio (Sierra Leone)",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548203",
+        "name": "Liberian English",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548902",
+        "name": "Mandingo (Guinea, Sierra Leone, Liberia)",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548242",
+        "name": "Mandinka",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548248",
+        "name": "Manya",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548247",
+        "name": "Mongolian (China)",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548256",
+        "name": "Norwegian",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548318",
+        "name": "Sinte Romani",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548343",
+        "name": "Tagalog",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548347",
+        "name": "Tibetan",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548214",
+        "name": "Tshiluba",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548375",
+        "name": "Wolof (Gambia)",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548376",
+        "name": "Wolof (Senegal)",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180548092",
+        "name": "Éwé",
+        "number_of_records": 1
+    },
+    {
+        "guid": "46161896180547992",
+        "name": "Abkhaz",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180547993",
+        "name": "Abron",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548022",
+        "name": "Acehnese",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180547996",
+        "name": "Acoli",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548501",
+        "name": "Adangme",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548002",
+        "name": "Afar",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548003",
+        "name": "Afitti",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548001",
+        "name": "Afrikaans",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548006",
+        "name": "Akaselem",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548260",
+        "name": "Ama (Sudan)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548011",
+        "name": "Anuak",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548021",
+        "name": "Assamese",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548023",
+        "name": "Avokaya",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548025",
+        "name": "Aymara",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548031",
+        "name": "Baatonum",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548030",
+        "name": "Bajuni",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548042",
+        "name": "Balanta-Kentohe",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548711",
+        "name": "Bambara",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548032",
+        "name": "Baoulé",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548037",
+        "name": "Bari",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548053",
+        "name": "Bashkir",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548050",
+        "name": "Basque",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548035",
+        "name": "Beja",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548036",
+        "name": "Bemba",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548194",
+        "name": "Berber (Taqbaylit)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548346",
+        "name": "Berber (Touareg)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548051",
+        "name": "Beti",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548039",
+        "name": "Bhojpuri",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548033",
+        "name": "Bislama",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548712",
+        "name": "Blin",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548497",
+        "name": "Bobo",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548048",
+        "name": "Brahui",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548049",
+        "name": "Breton",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548052",
+        "name": "Bulu (Cameroon)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548063",
+        "name": "Catálan, Catalonian",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548060",
+        "name": "Cham (Cambodia)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548062",
+        "name": "Cham (Vietnam)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548056",
+        "name": "Chaozhou",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548061",
+        "name": "Chechen",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548713",
+        "name": "Cherepon",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548506",
+        "name": "Chichewa",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548057",
+        "name": "Chiga",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548499",
+        "name": "Chimini",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548500",
+        "name": "Chinese (Min Dong)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548055",
+        "name": "Chinese (Min Nan)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548377",
+        "name": "Chinese (Wu)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548059",
+        "name": "Chittagonian",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548064",
+        "name": "Corsican",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548906",
+        "name": "Dabarre",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548714",
+        "name": "Dagbani",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548068",
+        "name": "Dagik, Masakin Dagig",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548067",
+        "name": "Dan",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548069",
+        "name": "Dendi",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548071",
+        "name": "Didinga",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548073",
+        "name": "Dilling",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548075",
+        "name": "Dinka Northeastern (Padang)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548076",
+        "name": "Dinka Northwestern (Alor)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548070",
+        "name": "Dinka South Central (Agar)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548074",
+        "name": "Dinka Southeastern (Bor)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548072",
+        "name": "Dinka Southwestern (Rek)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548177",
+        "name": "Dongolawi",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548715",
+        "name": "Duala",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548081",
+        "name": "Dutch",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548083",
+        "name": "Dzongkha",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548502",
+        "name": "Ede",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548148",
+        "name": "Esan",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548090",
+        "name": "Eskimo (Alaska)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548088",
+        "name": "Eskimo (Canada)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548087",
+        "name": "Esperanto",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548093",
+        "name": "Ewondo",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548099",
+        "name": "Fang",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548898",
+        "name": "Fanti",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548094",
+        "name": "Faroese",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548098",
+        "name": "Fijian",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548100",
+        "name": "Fon",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548102",
+        "name": "Friulian",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548104",
+        "name": "Fulfulde (Adamawa)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548109",
+        "name": "Fulfulde (Bagirmi)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548106",
+        "name": "Fulfulde (Benin-Togo)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548111",
+        "name": "Fulfulde (Central Eastern Niger)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548110",
+        "name": "Fulfulde (Maasina)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548113",
+        "name": "Fulfulde (Niger)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548108",
+        "name": "Fulfulde (Western Niger)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548112",
+        "name": "Fur",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548121",
+        "name": "Gaelic (Irish)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548123",
+        "name": "Gaelic (Scottish)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548122",
+        "name": "Galician",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548507",
+        "name": "Garre",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548504",
+        "name": "Gen",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548118",
+        "name": "Ghulfan",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548716",
+        "name": "Gilaki",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548126",
+        "name": "Gourmanchéma",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548125",
+        "name": "Guarani",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548119",
+        "name": "Gujarati",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548129",
+        "name": "Haitan Creoloe French",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548717",
+        "name": "Harari",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548140",
+        "name": "Hausa",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548130",
+        "name": "Haya",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548131",
+        "name": "Hazaragi",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548133",
+        "name": "Heiban",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548134",
+        "name": "Herero",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548135",
+        "name": "Hiligaynon",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548718",
+        "name": "Hindko",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548277",
+        "name": "Hiri Motu",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548719",
+        "name": "Hmong",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548141",
+        "name": "Icelandic",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548720",
+        "name": "Ika",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548144",
+        "name": "Iloko",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548146",
+        "name": "Ingush",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548089",
+        "name": "Inuktitut",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548150",
+        "name": "Jahanka",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548154",
+        "name": "Javanese (Caribean)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548152",
+        "name": "Javanese (Indonesia)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548508",
+        "name": "Jola-Fonyi",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548273",
+        "name": "Juba Arabic",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548157",
+        "name": "Kabiyé",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548164",
+        "name": "Kadaru",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548166",
+        "name": "Kakwa",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548175",
+        "name": "Kalenjin",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548172",
+        "name": "Kamba",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548311",
+        "name": "Kannada",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548182",
+        "name": "Kanuri",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548185",
+        "name": "Karelian",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548187",
+        "name": "Kashmiri",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548065",
+        "name": "Kashubian",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548155",
+        "name": "Katcha-Kadugli-Miri",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548159",
+        "name": "Katla",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548156",
+        "name": "Kazakh",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548176",
+        "name": "Khmer",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548173",
+        "name": "Kikuyu",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548158",
+        "name": "Kinubi",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548190",
+        "name": "Kituba (DRC)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548171",
+        "name": "Koalib",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548180",
+        "name": "Kongo San Salvador",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548178",
+        "name": "Kono (Sierra Leone)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548120",
+        "name": "Kpelle (Guinea Conakry)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548900",
+        "name": "Kpelle (Ivory Coast)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548181",
+        "name": "Kpelle (Liberia)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548168",
+        "name": "Krongo",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548169",
+        "name": "Kuranko",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548503",
+        "name": "Kurdish (Feyli)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548127",
+        "name": "Kurdish (Hawrami)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548286",
+        "name": "Kurdish (Zaza)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548193",
+        "name": "Kwangali",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548192",
+        "name": "Kwanyama",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548163",
+        "name": "Kyrgyz",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548195",
+        "name": "Lafofa",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548200",
+        "name": "Lala-Bisa",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548728",
+        "name": "Lamnso'",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548208",
+        "name": "Lango (Sudan)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548196",
+        "name": "Lango (Uganda)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548255",
+        "name": "Laotian",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548213",
+        "name": "Latin",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548206",
+        "name": "Limba (Guinea Conakry)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548201",
+        "name": "Limba (Sierra Leone)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548209",
+        "name": "Loko",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548205",
+        "name": "Lokoya",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548253",
+        "name": "Lomwe",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548211",
+        "name": "Lozi",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548215",
+        "name": "Luo (Kenya, Tanzania)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548218",
+        "name": "Luo (South Sudan)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548216",
+        "name": "Luxembourgish",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548217",
+        "name": "Luyia",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548233",
+        "name": "Maithili",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548370",
+        "name": "Makhuwa",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548161",
+        "name": "Makonde",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548224",
+        "name": "Malagasy",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548236",
+        "name": "Malay",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548724",
+        "name": "Malay",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548231",
+        "name": "Malayalam",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548239",
+        "name": "Maltese",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548591",
+        "name": "Mandee (Iraq)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548901",
+        "name": "Mandingo (Senegal, Gambia, Guinea-Bissau)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548226",
+        "name": "Mandjak",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548221",
+        "name": "Maori",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548244",
+        "name": "Marathi",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548722",
+        "name": "Masalit",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548222",
+        "name": "Mbere",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548230",
+        "name": "Mbukushu",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548227",
+        "name": "Mende",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548723",
+        "name": "Mengaka",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548223",
+        "name": "Meru",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548228",
+        "name": "Mooré",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548243",
+        "name": "Moro",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548903",
+        "name": "Multani",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548246",
+        "name": "Mundari",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548235",
+        "name": "Munukutuba",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548245",
+        "name": "Murle",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548249",
+        "name": "Nama",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548258",
+        "name": "Nauruan",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548251",
+        "name": "Ndebele",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548250",
+        "name": "Ndonga",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548078",
+        "name": "Nenge",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548300",
+        "name": "Ngambay",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548725",
+        "name": "Ngiemboon",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548220",
+        "name": "Ngile",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548726",
+        "name": "Ngomba",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548727",
+        "name": "Ngombale",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548096",
+        "name": "Nobiin",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548183",
+        "name": "Northern Kissi",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548212",
+        "name": "Northern Luri",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548326",
+        "name": "Northern Sotho",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548257",
+        "name": "Norwegian Bokmal",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548259",
+        "name": "Nuer",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548262",
+        "name": "Nyamwesi",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548261",
+        "name": "Nyanja",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548904",
+        "name": "Nyika",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548207",
+        "name": "Occitan",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548263",
+        "name": "Oriya",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548394",
+        "name": "Oromo (Borana - Arsi - Guji)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548264",
+        "name": "Ossetic",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548210",
+        "name": "Otuho",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548729",
+        "name": "Ovambo",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548730",
+        "name": "Pahari-Pothwari",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548266",
+        "name": "Papel",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548282",
+        "name": "Provencal",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548285",
+        "name": "Punu",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548288",
+        "name": "Qashqai",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548289",
+        "name": "Quechua",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548229",
+        "name": "Rakhine",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548291",
+        "name": "Rhaeto-Romance",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548897",
+        "name": "Rohingya",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548189",
+        "name": "S'gaw Karen",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548297",
+        "name": "Saho",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548589",
+        "name": "Samoan",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548316",
+        "name": "Sango",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548299",
+        "name": "Sanskrit",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548313",
+        "name": "Saraiki",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548312",
+        "name": "Sardinian",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548505",
+        "name": "Sena",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548302",
+        "name": "Senufo",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548327",
+        "name": "Shan",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548310",
+        "name": "Shatt",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548306",
+        "name": "Shilluk",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548307",
+        "name": "Shona",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548304",
+        "name": "Sindhi",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548317",
+        "name": "Sinhalese",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548315",
+        "name": "Slovenian",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548320",
+        "name": "Soga",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548136",
+        "name": "Songhai",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548319",
+        "name": "Soninke",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548371",
+        "name": "Sorbian (Lower-)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548395",
+        "name": "Sorbian (Upper-)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548188",
+        "name": "Southern Kissi",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548896",
+        "name": "Southern Luri",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548390",
+        "name": "Southern Sotho",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548329",
+        "name": "Sukuma",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548331",
+        "name": "Sundanese (Indonesia)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548335",
+        "name": "Swati",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548336",
+        "name": "Sylhetti",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548309",
+        "name": "Tachawit",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548350",
+        "name": "Talodi",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548351",
+        "name": "Talysh",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548731",
+        "name": "Tama",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548358",
+        "name": "Tatar",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548290",
+        "name": "Tegali",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548339",
+        "name": "Telugu",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548162",
+        "name": "Tem",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548341",
+        "name": "Temne",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548342",
+        "name": "Teso",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548732",
+        "name": "Tetela",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548340",
+        "name": "Tetum",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548349",
+        "name": "Tira",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548269",
+        "name": "Tok Pisin",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548352",
+        "name": "Tonga (Malawi)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548354",
+        "name": "Tonga (Pacific)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548353",
+        "name": "Tonga (Zambia, Zimbabwe)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548905",
+        "name": "Toucouleur",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548356",
+        "name": "Tsonga",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548357",
+        "name": "Tswana",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548359",
+        "name": "Tubu",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548360",
+        "name": "Tumbuka",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548240",
+        "name": "Umbundu",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548279",
+        "name": "Upper Guinea Crioulo",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548367",
+        "name": "Uzbek (Afghanistan)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548366",
+        "name": "Uzbek (Uzbekistan, Tajikistan)",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548368",
+        "name": "Venda",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548733",
+        "name": "Waama",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548374",
+        "name": "Welsh",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548590",
+        "name": "Western Neo-Aramaic",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548378",
+        "name": "Xhosa",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548380",
+        "name": "Yalunka",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548734",
+        "name": "Yamba",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548381",
+        "name": "Yao",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548735",
+        "name": "Yemba",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548382",
+        "name": "Yiddish",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548383",
+        "name": "Yoruba",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548385",
+        "name": "Zaghawa",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548386",
+        "name": "Zande",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548077",
+        "name": "Zarma",
+        "number_of_records": 0
+    },
+    {
+        "guid": "46161896180548387",
+        "name": "Zulu",
+        "number_of_records": 0
+    }
+]

@@ -1,0 +1,9 @@
+monitor.log
+.venv/
+.env
+all_languages_results.json
+all_languages_results.xlsx
+details_cache.json
+known_records.json
+__pycache__/
+.vscode/
