@@ -749,6 +749,101 @@ class TestLoggingSetup(unittest.TestCase):
         self.assertNotIn("Email: person1@test.com", msg_7)
         self.assertIn("all_languages_results.xlsx", msg_7)
 
+    def test_monitor_load_env_file(self) -> None:
+        import os
+        from monitor import load_env_file
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            env_file = Path(tmp_dir) / ".env"
+            env_file.write_text(
+                "# Sample comment\n"
+                "TEST_KEY=hello_world\n"
+                "TEST_QUOTED=\"spaced value\"\n",
+                encoding="utf-8",
+            )
+            parsed = load_env_file(env_file)
+            self.assertEqual(parsed.get("TEST_KEY"), "hello_world")
+            self.assertEqual(parsed.get("TEST_QUOTED"), "spaced value")
+            self.assertEqual(os.environ.get("TEST_KEY"), "hello_world")
+
+            # Non-existent file returns empty dict
+            empty = load_env_file(Path(tmp_dir) / "does_not_exist.env")
+            self.assertEqual(empty, {})
+
+    def test_notification_format_email_alert(self) -> None:
+        from notification import format_email_alert
+
+        def make_dummy(i: int) -> tuple[str, dict[str, Any]]:
+            return (
+                f"Lang{i}",
+                {
+                    "guid": f"guid_{i}",
+                    "role": "Tolk",
+                    "level": "c1",
+                    "attributes": {
+                        "Voorletters": {"value": f"A{i}."},
+                        "Achternaam": {"value": f"Person{i}"},
+                        "Klantnummer": {"value": f"100{i}"},
+                        "OpenWebregister.AdresgegevensWoonadres_VertalerTolk": {
+                            "attributes": {"Plaats": {"value": "Amsterdam"}}
+                        },
+                    },
+                    "details": {
+                        "Email": f"person{i}@test.com",
+                        "Telephone 1": f"06123456{i}",
+                    },
+                },
+            )
+
+        # 1. Single record
+        items_1 = [make_dummy(1)]
+        sub_1, text_1, html_1 = format_email_alert(items_1, elapsed_seconds=1.5)
+        self.assertIn("New Registration:", sub_1)
+        self.assertIn("person1@test.com", text_1)
+        self.assertIn("mailto:person1@test.com", html_1)
+        self.assertIn("Amsterdam", html_1)
+
+        # 2. Batch records (> 5)
+        items_8 = [make_dummy(i) for i in range(1, 9)]
+        sub_8, text_8, html_8 = format_email_alert(items_8, elapsed_seconds=3.2)
+        self.assertIn("8 New Registration(s) Detected", sub_8)
+        self.assertIn("Breakdown by Language", text_8)
+        self.assertIn("Breakdown by Language", html_8)
+        self.assertIn("all_languages_results.xlsx", text_8)
+        self.assertIn("all_languages_results.xlsx", html_8)
+
+    @patch("smtplib.SMTP_SSL")
+    def test_notification_send_email_mocked(self, mock_smtp_ssl: MagicMock) -> None:
+        from notification import send_email_notification
+
+        mock_server = MagicMock()
+        mock_smtp_ssl.return_value.__enter__.return_value = mock_server
+
+        # Successful send
+        success = send_email_notification(
+            subject="Test Subject",
+            body="Test Body",
+            html_body="<p>Test</p>",
+            sender="sender@example.com",
+            password="secret_pass",
+            recipients=["recipient@example.com"],
+        )
+        self.assertTrue(success)
+        mock_server.login.assert_called_once_with("sender@example.com", "secret_pass")
+        mock_server.send_message.assert_called_once()
+
+        # Missing credentials returns False without connecting
+        mock_server.reset_mock()
+        failed = send_email_notification(
+            subject="Test",
+            body="Test",
+            sender="",
+            password="",
+            recipients="",
+        )
+        self.assertFalse(failed)
+        mock_server.login.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

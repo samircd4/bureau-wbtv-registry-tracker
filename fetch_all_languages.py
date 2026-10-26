@@ -25,7 +25,11 @@ from typing import Any, Optional
 
 import pandas as pd
 import requests
+from dotenv import load_dotenv
 from requests.adapters import HTTPAdapter
+
+# Load environment variables from .env file if present
+load_dotenv(Path(__file__).resolve().parent / ".env")
 
 logger = logging.getLogger("language_search")
 
@@ -39,6 +43,9 @@ DEFAULT_ROLE = "Tolk"
 
 # Protected file names that must never be overwritten
 PROTECTED_FILES = {
+    "results.json",
+    "requests.json",
+    "cookies.json",
     "target_lang.json",
     "fetch_all_languages.py",
     "test_fetch_all_languages.py",

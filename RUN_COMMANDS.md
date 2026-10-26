@@ -357,22 +357,17 @@ Each generated `.xlsx` (or `.csv`) file contains the following English columns p
 
 ---
 
-## 12. Continuous Monitoring with Telegram Alerts (monitor.py)
+## 12. Continuous Monitoring with Email (Default) & Telegram (Optional) Alerts (monitor.py)
 
-The monitor.py script runs continuously (every 1 hour by default) and sends you a **Telegram notification** whenever a new professional registers, or an existing one adds a new language/role.
+The `monitor.py` script runs continuously (every 1 hour by default) and checks for newly registered professionals or newly added languages/roles.
 
----
-
-### Step 1: Set Up Your Telegram Bot (One-Time Setup)
-
-1. Open Telegram and search for **@BotFather**
-2. Send `/newbot` and follow the prompts -- you will receive a **Bot Token** (like `123456789:ABCdef...`)
-3. Search for **@userinfobot** -- it replies with your personal **Chat ID** (a number)
-4. Send a `/start` message to your new bot so it has permission to send you messages
+- **Email Alerts (Default)**: Sends a formatted email (with rich HTML profile cards and plain text fallback) to the specified recipients.
+- **Telegram Alerts (Optional)**: If Telegram credentials are configured, sends instant alert messages directly to your Telegram chat.
+- **Console Fallback**: If neither channel is configured, alert messages print to the console.
 
 ---
 
-### Step 2: Configure Your Credentials
+### Step 1: Configure Your Credentials in `.env`
 
 Copy `.env.example` to `.env`:
 
@@ -380,26 +375,52 @@ Copy `.env.example` to `.env`:
 Copy-Item .env.example .env
 ```
 
-Then open `.env` and fill in your values:
-```
+Open `.env` and fill in your credentials:
+
+```dotenv
+# ==============================================================================
+# Default Notification Channel: Email (SMTP SSL)
+# ==============================================================================
+SENDER_EMAIL=your_email@gmail.com
+EMAIL_PASSWORD=your_16_character_app_password
+RECIPIENT_EMAIL=recipient@example.com
+
+# ==============================================================================
+# Optional Notification Channel: Telegram Bot
+# ==============================================================================
 TELEGRAM_BOT_TOKEN=123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ
 TELEGRAM_CHAT_ID=987654321
+
+# ==============================================================================
+# Monitoring Interval (3600 seconds = 1 hour)
+# ==============================================================================
 MONITOR_INTERVAL_SECONDS=3600
 ```
 
+> **Note for Gmail users**: Use a Google **App Password** (Google Account > Security > 2-Step Verification > App passwords) instead of your primary password.
+
 ---
 
-### Step 3: Test Your Telegram Connection
+### Step 2: Test Your Notifications
+
+Verify your alert delivery before starting continuous monitoring:
 
 ```powershell
+# 1. Test Default Email Connection
+uv run monitor.py --test-email
+
+# 2. Test Optional Telegram Connection
 uv run monitor.py --test-telegram
+
+# 3. Or test email module directly
+uv run notification.py
 ```
 
 ---
 
-### Step 4: Run the Monitor
+### Step 3: Run the Monitor
 
-#### Run Once (Single Check)
+#### Run Once (Single Check Cycle)
 ```powershell
 uv run monitor.py --once
 ```
@@ -409,14 +430,29 @@ uv run monitor.py --once
 uv run monitor.py
 ```
 
+#### Send Alerts to a Specific Recipient
+```powershell
+uv run monitor.py --recipient-email alerts@example.com
+```
+
 #### Monitor a Specific Language
 ```powershell
 uv run monitor.py --language Arabic
 ```
 
-#### Custom Interval (30 Minutes)
+#### Custom Check Interval (Every 30 Minutes)
 ```powershell
 uv run monitor.py --interval 1800
+```
+
+#### Check Both Interpreters and Translators Once
+```powershell
+uv run monitor.py --roles both --once
+```
+
+#### Disable Email and Run with Telegram / Console Only
+```powershell
+uv run monitor.py --disable-email
 ```
 
 ---
@@ -425,29 +461,36 @@ uv run monitor.py --interval 1800
 
 | Step | What Happens |
 | :--- | :--- |
-| **First run** | Reads all_languages_results.json to build a quiet baseline -- no spam |
-| **Each cycle** | Searches all languages and compares to known_records.json |
-| **New record found** | Enriches contact details, sends Telegram alert, updates state |
+| **First run** | Reads `all_languages_results.json` to build a quiet baseline -- no spam |
+| **Each cycle** | Searches all languages and compares to `known_records.json` |
+| **New record found** | Enriches contact details, sends **Email alert (default)** and **Telegram alert (optional)**, updates state |
 | **No new records** | Sleeps until next cycle |
 
 ---
 
 ### Monitor CLI Reference
 
-| Flag | Default | Description |
-| :--- | :--- | :--- |
-| `--token` | `.env` | Telegram Bot Token |
-| `--chat-id` | `.env` | Telegram Chat ID |
-| `--interval` | `3600` | Seconds between checks |
-| `--language` | All | Filter by language name or substring |
-| `--limit` | All | Max number of languages to check per cycle |
-| `--roles` | Both | `Tolk`, `Vertaler`, or `both` |
-| `--delay` | `1.0` | Delay between language requests (seconds) |
-| `--once` | `False` | Run once and exit |
-| `--test-telegram` | `False` | Test Telegram connection and exit |
-| `--known-file` | `known_records.json` | State tracking file |
-| `--baseline-file` | `all_languages_results.json` | Baseline for first-run seeding |
-| `--output` | `all_languages_results.json` | JSON file to update on new findings |
-| `--excel-output` | `all_languages_results.xlsx` | Excel file to update on new findings |
-| `--log-file` | `monitor.log` | Path to .log file where execution logs are saved |
-| `-v`, `--verbose` | `False` | Enable debug-level logging |
+| Flag | Short | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `--recipient-email` | `--email` | `.env` / `RECIPIENT_EMAIL` | Recipient email address(es) for default notifications |
+| `--sender-email` | | `.env` / `SENDER_EMAIL` | Sender email address for default notifications |
+| `--email-password` | | `.env` / `EMAIL_PASSWORD` | App password for sender email |
+| `--disable-email` | `--no-email` | `False` | Disable default email notifications |
+| `--test-email` | | `False` | Test email connection and exit |
+| `--token` | | `.env` / `TELEGRAM_BOT_TOKEN` | Optional Telegram Bot Token |
+| `--chat-id` | | `.env` / `TELEGRAM_CHAT_ID` | Optional Telegram Chat ID |
+| `--test-telegram` | | `False` | Test Telegram connection and exit |
+| `--interval` | | `3600` | Seconds between checks |
+| `--language` | `-l` | All | Filter by language name or substring |
+| `--limit` | `-n` | All | Max number of languages to check per cycle |
+| `--roles` | | `['Tolk']` | `Tolk`, `Vertaler`, or `both` |
+| `--scan-workers` | `-w` | `8` | Number of worker threads scanning languages in parallel |
+| `--concurrency` | `-c` | `10` | Concurrency for fetching profile details of new records |
+| `--once` | | `False` | Run once and exit |
+| `--known-file` | | `known_records.json` | State tracking file |
+| `--baseline-file` | | `all_languages_results.json` | Baseline for first-run seeding |
+| `--output` | | `all_languages_results.json` | JSON file to update on new findings |
+| `--excel-output` | | `all_languages_results.xlsx` | Excel file to update on new findings |
+| `--log-file` | | `None` | Optional path to `.log` file (console only by default) |
+| `--verbose` | `-v` | `False` | Enable debug-level logging |
+

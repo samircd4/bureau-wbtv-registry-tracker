@@ -43,6 +43,9 @@ from threading import Lock
 from typing import Any, Optional
 
 import requests
+from dotenv import dotenv_values, load_dotenv
+
+from notification import format_email_alert, send_email_notification
 
 # We import the core search client and helpers from fetch_all_languages.py
 from fetch_all_languages import (
@@ -107,33 +110,20 @@ logger = logging.getLogger("monitor")
 
 
 # ---------------------------------------------------------------------------
-# 1. Beginner-friendly .env File Loader
+# 1. .env File Loader (python-dotenv)
 # ---------------------------------------------------------------------------
 
 def load_env_file(env_path: Path = Path(".env")) -> dict[str, str]:
     """
-    Reads a simple .env file without requiring external libraries.
-    Example lines:
-        TELEGRAM_BOT_TOKEN=123456:ABC-DEF...
-        TELEGRAM_CHAT_ID=987654321
+    Loads environment variables from a .env file using python-dotenv.
+    Populates os.environ and returns non-empty parsed variables as a dictionary.
     """
-    env_vars: dict[str, str] = {}
     if not env_path.is_file():
-        return env_vars
+        return {}
 
-    with env_path.open("r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            # Skip comments and empty lines
-            if not line or line.startswith("#"):
-                continue
-            if "=" in line:
-                key, val = line.split("=", 1)
-                key = key.strip()
-                val = val.strip().strip('"').strip("'")
-                env_vars[key] = val
-
-    return env_vars
+    load_dotenv(dotenv_path=env_path, override=True)
+    raw_vals = dotenv_values(dotenv_path=env_path)
+    return {k: v for k, v in raw_vals.items() if v is not None}
 
 
 # ---------------------------------------------------------------------------
@@ -352,7 +342,7 @@ def format_duration(seconds: float) -> str:
     rem_seconds = seconds % 60
     if minutes < 60:
         return f"{minutes}m {rem_seconds:0.1f}s ({seconds:0.2f}s total)"
-    hours = int(minutes // 60)
+    hours = minutes // 60
     rem_minutes = minutes % 60
     return f"{hours}h {rem_minutes}m {rem_seconds:0.0f}s"
 
@@ -452,13 +442,17 @@ def run_check_cycle(
     concurrency: int,
     output_json: Path,
     output_excel: Path,
-    telegram_token: str,
-    telegram_chat_id: str,
+    email_enabled: bool = True,
+    sender_email: Optional[str] = None,
+    email_password: Optional[str] = None,
+    recipient_emails: Optional[list[str] | str] = None,
+    telegram_token: str = "",
+    telegram_chat_id: str = "",
 ) -> int:
     """
     Runs one scan of the requested languages concurrently using worker threads.
     Each worker initializes its Mendix session ONCE and reuses it for all assigned languages.
-    Detects new registrations, enriches them, and sends Telegram notifications.
+    Detects new registrations, enriches them, and sends email alerts (default) and Telegram alerts (optional).
     Returns the count of new records found.
     """
     cycle_start_time = time.perf_counter()
@@ -583,17 +577,44 @@ def run_check_cycle(
         enrich_elapsed = time.perf_counter() - enrich_start_time
         logger.info("Enrichment completed in %s.", format_duration(enrich_elapsed))
 
-        # 1. Format and send Telegram alert
-        message = format_alert_message(new_found, elapsed_seconds=time.perf_counter() - cycle_start_time)
+        cycle_elapsed_so_far = time.perf_counter() - cycle_start_time
+
+        # 1. Primary Notification: Email Alert (Default)
+        email_sent = False
+        if email_enabled:
+            subject, text_body, html_body = format_email_alert(
+                new_found, elapsed_seconds=cycle_elapsed_so_far
+            )
+            email_sent = send_email_notification(
+                subject=subject,
+                body=text_body,
+                html_body=html_body,
+                sender=sender_email,
+                password=email_password,
+                recipients=recipient_emails,
+            )
+            if not email_sent:
+                logger.warning(
+                    "Default email alert could not be sent. Check SENDER_EMAIL, EMAIL_PASSWORD, and RECIPIENT_EMAIL in .env."
+                )
+
+        # 2. Secondary Notification: Telegram Alert (Optional)
+        telegram_sent = False
         if telegram_token and telegram_chat_id:
-            send_telegram_message(telegram_token, telegram_chat_id, message)
+            telegram_msg = format_alert_message(
+                new_found, elapsed_seconds=cycle_elapsed_so_far
+            )
+            telegram_sent = send_telegram_message(telegram_token, telegram_chat_id, telegram_msg)
         else:
-            logger.warning("Telegram credentials not configured. Notification not sent.")
+            logger.debug("Telegram credentials not configured (Telegram is optional).")
+
+        # 3. Fallback: Print to console if neither channel sent an alert
+        if not email_sent and not telegram_sent:
             print("\n" + "=" * 50)
-            print(message)
+            print(format_alert_message(new_found, elapsed_seconds=cycle_elapsed_so_far))
             print("=" * 50 + "\n")
 
-        # 2. Update Excel via pandas (only update matching rows or append new records)
+        # Update Excel via pandas (only update matching rows or append new records)
         inserted_count, updated_count = upsert_records_to_excel(output_excel, new_found)
         logger.info(
             "Excel file '%s' updated via pandas: %d new inserted, %d existing updated.",
@@ -639,19 +660,52 @@ def run_check_cycle(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Continuously monitor Bureau Wbtv for new registrations and send Telegram alerts."
+        description="Continuously monitor Bureau Wbtv for new registrations. Sends email alerts by default and optional Telegram alerts."
     )
+    # Email notifications (Default)
+    parser.add_argument(
+        "--recipient-email",
+        "--email",
+        type=str,
+        default=None,
+        help="Recipient email address(es) for default notifications (or set RECIPIENT_EMAIL in .env).",
+    )
+    parser.add_argument(
+        "--sender-email",
+        type=str,
+        default=None,
+        help="Sender email address for default notifications (or set SENDER_EMAIL in .env).",
+    )
+    parser.add_argument(
+        "--email-password",
+        type=str,
+        default=None,
+        help="App password for sender email (or set EMAIL_PASSWORD in .env).",
+    )
+    parser.add_argument(
+        "--disable-email",
+        "--no-email",
+        action="store_true",
+        help="Disable default email notifications.",
+    )
+    parser.add_argument(
+        "--test-email",
+        action="store_true",
+        help="Send a test email notification to verify SMTP credentials and exit.",
+    )
+
+    # Telegram notifications (Optional)
     parser.add_argument(
         "--token",
         type=str,
         default=None,
-        help="Telegram Bot Token (or set TELEGRAM_BOT_TOKEN in .env / environment).",
+        help="Optional Telegram Bot Token (or set TELEGRAM_BOT_TOKEN in .env).",
     )
     parser.add_argument(
         "--chat-id",
         type=str,
         default=None,
-        help="Telegram Chat ID (or set TELEGRAM_CHAT_ID in .env / environment).",
+        help="Optional Telegram Chat ID (or set TELEGRAM_CHAT_ID in .env).",
     )
     parser.add_argument(
         "--interval",
@@ -732,8 +786,8 @@ def main() -> None:
     parser.add_argument(
         "--log-file",
         type=str,
-        default="monitor.log",
-        help="Path to .log file where execution logs are saved (default: monitor.log).",
+        default=None,
+        help="Optional path to .log file where execution logs are saved (default: None, console only).",
     )
     parser.add_argument(
         "-v",
@@ -749,18 +803,46 @@ def main() -> None:
     # Load environment variables (.env file takes precedence if present)
     env_vars = load_env_file(base_dir / ".env")
 
-    # Set up file logging alongside console output
-    log_file_name = args.log_file or env_vars.get("MONITOR_LOG_FILE") or "monitor.log"
-    log_path = Path(log_file_name)
-    if not log_path.is_absolute():
-        log_path = base_dir / log_path
+    # Set up logging (console by default, file only if explicitly requested)
+    log_file_name = args.log_file or env_vars.get("MONITOR_LOG_FILE")
+    log_path: Optional[Path] = None
+    if log_file_name:
+        log_path = Path(log_file_name)
+        if not log_path.is_absolute():
+            log_path = base_dir / log_path
 
-    if log_path.name in PROTECTED_FILES:
-        print(f"Error: Specified log file '{log_path.name}' is a protected file.")
-        sys.exit(1)
+        if log_path.name in PROTECTED_FILES:
+            print(f"Error: Specified log file '{log_path.name}' is a protected file.")
+            sys.exit(1)
 
     setup_logging(log_file=log_path, verbose=args.verbose)
 
+    # Email credentials (Default channel)
+    sender_email = (
+        args.sender_email
+        or env_vars.get("SENDER_EMAIL")
+        or env_vars.get("EMAIL_SENDER")
+        or os.environ.get("SENDER_EMAIL")
+        or os.environ.get("EMAIL_SENDER")
+        or ""
+    )
+    email_password = (
+        args.email_password
+        or env_vars.get("EMAIL_PASSWORD")
+        or os.environ.get("EMAIL_PASSWORD")
+        or ""
+    )
+    recipient_email = (
+        args.recipient_email
+        or env_vars.get("RECIPIENT_EMAIL")
+        or env_vars.get("EMAIL_RECEIVER")
+        or os.environ.get("RECIPIENT_EMAIL")
+        or os.environ.get("EMAIL_RECEIVER")
+        or ""
+    )
+    email_enabled = not args.disable_email
+
+    # Telegram credentials (Optional channel)
     telegram_token = (
         args.token
         or env_vars.get("TELEGRAM_BOT_TOKEN")
@@ -775,9 +857,45 @@ def main() -> None:
     )
     interval_seconds = args.interval or int(env_vars.get("MONITOR_INTERVAL_SECONDS") or 3600)
 
-    # 1. Handle --test-telegram command
+    # 1. Handle --test-email command
+    if args.test_email:
+        print("\nTesting Email connection (Default Notification Channel)...")
+        if not sender_email or not email_password or not recipient_email:
+            print("Error: SENDER_EMAIL, EMAIL_PASSWORD, or RECIPIENT_EMAIL is missing.")
+            print("Please configure them in your .env file or pass them as command-line arguments.")
+            sys.exit(1)
+
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        test_subject = "[Bureau Wbtv] Test Email Alert"
+        test_body = (
+            "Bureau Wbtv Monitor Email Connected!\n\n"
+            "Your email alert configuration is working properly.\n"
+            f"Timestamp: {now_str}\n"
+        )
+        test_html = f"""
+        <div style="font-family: Arial, sans-serif; max-width: 500px; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+          <h2 style="color: #0f172a; margin-top: 0;">&#x2705; Bureau Wbtv Monitor Email Connected!</h2>
+          <p style="color: #334155;">Your email notification setup is working properly.</p>
+          <p style="color: #64748b; font-size: 12px;">Tested at: {now_str}</p>
+        </div>
+        """
+        success = send_email_notification(
+            subject=test_subject,
+            body=test_body,
+            html_body=test_html,
+            sender=sender_email,
+            password=email_password,
+            recipients=recipient_email,
+        )
+        if success:
+            print(f"Success! Check {recipient_email} for the test email.\n")
+        else:
+            print("Failed to send test email. Please check your credentials in .env.\n")
+        return
+
+    # 2. Handle --test-telegram command
     if args.test_telegram:
-        print("\nTesting Telegram connection...")
+        print("\nTesting Telegram connection (Optional Notification Channel)...")
         if not telegram_token or not telegram_chat_id:
             print("Error: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is missing.")
             print("Please fill them in .env or pass --token <TOKEN> --chat-id <CHAT_ID>.")
@@ -795,11 +913,13 @@ def main() -> None:
             print("Failed to send test message. Please verify your Bot Token and Chat ID.\n")
         return
 
-    # Warn if credentials are missing
-    if not telegram_token or not telegram_chat_id:
+    # Informational check for credentials
+    if not (email_enabled and sender_email and email_password and recipient_email):
         logger.warning(
-            "TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is not set. Alerts will print to console only."
+            "Default email notifications not fully configured in .env (SENDER_EMAIL, EMAIL_PASSWORD, RECIPIENT_EMAIL)."
         )
+    if not (telegram_token and telegram_chat_id):
+        logger.info("Telegram notifications not configured (Telegram is optional).")
 
     # Load languages to monitor
     target_path = base_dir / "target_lang.json"
@@ -833,12 +953,17 @@ def main() -> None:
     logger.info("Detail Concurrency:  %d", args.concurrency)
     logger.info("Roles:               %s", ", ".join(selected_roles))
     logger.info("Check Interval:      %d seconds (%0.1f hours)", interval_seconds, interval_seconds / 3600)
-    logger.info("Log File:            %s", log_path.name)
-    logger.info("Known Records File:  %s", known_path.name)
-    logger.info(
-        "Telegram Alerts:     %s",
-        "ENABLED" if (telegram_token and telegram_chat_id) else "DISABLED (Console only)",
+    logger.info("Log File:            %s", log_path.name if log_path else "None (Console only)")
+    email_status = (
+        f"ENABLED (Default) -> {recipient_email}"
+        if (email_enabled and sender_email and email_password and recipient_email)
+        else ("DISABLED (--disable-email)" if not email_enabled else "NOT CONFIGURED (Missing .env credentials)")
     )
+    telegram_status = (
+        "ENABLED (Optional)" if (telegram_token and telegram_chat_id) else "DISABLED (Optional - not configured)"
+    )
+    logger.info("Email Alerts:        %s", email_status)
+    logger.info("Telegram Alerts:     %s", telegram_status)
     logger.info("=" * 60)
 
     cycle_count = 1
@@ -869,6 +994,10 @@ def main() -> None:
                     concurrency=args.concurrency,
                     output_json=output_json,
                     output_excel=output_excel,
+                    email_enabled=email_enabled,
+                    sender_email=sender_email,
+                    email_password=email_password,
+                    recipient_emails=recipient_email,
                     telegram_token=telegram_token,
                     telegram_chat_id=telegram_chat_id,
                 )

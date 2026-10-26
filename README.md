@@ -4,7 +4,7 @@
 collecting interpreter and translator registry data and monitoring changes in
 the Bureau Wbtv public registry. Its bulk fetcher uses HTTP requests directly;
 it does not automate a browser. A separate monitor can periodically check for
-new registrations and optionally send Telegram alerts.
+new registrations and optionally send Telegram alerts and email notificaton.
 
 ## Features
 
@@ -244,11 +244,12 @@ targets. These include `results.json`, `requests.json`, `cookies.json`,
 `monitor.py` checks the selected languages repeatedly (once per hour by
 default). It compares registrations using a key based on professional GUID,
 role, and target language. When it finds new registrations, it enriches their
-details, updates the local result files, and sends a Telegram notification if
-credentials are configured. Without Telegram credentials, alerts are printed
-to the console.
+details, updates the local result files, and sends a **formatted Email alert by default**
+(with rich HTML cards and plain-text fallback). Optionally, it can also send a
+**Telegram notification** if Telegram bot credentials are configured. If neither
+is configured, alerts are printed to the console.
 
-### Configure Telegram (optional)
+### Configure Email (Default) and Telegram (Optional)
 
 Copy the example configuration:
 
@@ -256,23 +257,40 @@ Copy the example configuration:
 Copy-Item .env.example .env
 ```
 
-Edit `.env` and set your own values:
+Edit `.env` and set your credentials:
 
 ```dotenv
+# Default Email Alerts (Gmail SMTP / App Password)
+SENDER_EMAIL=your_email@gmail.com
+EMAIL_PASSWORD=your_16_character_app_password
+RECIPIENT_EMAIL=recipient@example.com
+
+# Optional Telegram Bot Alerts
 TELEGRAM_BOT_TOKEN=your_bot_token
 TELEGRAM_CHAT_ID=your_chat_id
+
+# Monitoring interval in seconds (3600 seconds = 1 hour)
 MONITOR_INTERVAL_SECONDS=3600
 ```
 
-Keep `.env` private. Do not commit it or share its contents. You can also pass
-the token and chat ID with `--token` and `--chat-id`, or provide them through
-environment variables. The monitor checks command-line arguments first, then
-`.env`, then environment variables.
+> [!TIP]
+> For Gmail, use an **App Password** (Google Account > Security > 2-Step Verification > App passwords) rather than your main account password.
 
-Test Telegram delivery before starting monitoring:
+Keep `.env` private. Do not commit it or share its contents.
+
+### Test Notifications
+
+Test your alert connections before starting the monitor:
 
 ```powershell
+# Test default Email notification
+uv run monitor.py --test-email
+
+# Test optional Telegram notification
 uv run monitor.py --test-telegram
+
+# Or test email directly via notification.py
+uv run notification.py
 ```
 
 ### Run the monitor
@@ -299,7 +317,10 @@ Stop a continuous run with `Ctrl+C`.
 ### Monitor run recipes
 
 ```powershell
-# Test Telegram credentials and delivery
+# Test Email credentials and delivery (Default)
+uv run monitor.py --test-email
+
+# Test Telegram credentials and delivery (Optional)
 uv run monitor.py --test-telegram
 
 # Run one monitoring cycle and exit
@@ -307,6 +328,12 @@ uv run monitor.py --once
 
 # Run continuously using the configured/default one-hour interval
 uv run monitor.py
+
+# Send alerts to a specific recipient address
+uv run monitor.py --recipient-email alerts@example.com
+
+# Disable email alerts and use console/telegram only
+uv run monitor.py --disable-email
 
 # Monitor languages whose names contain "Arabic"
 uv run monitor.py --language Arabic
@@ -329,7 +356,8 @@ By default, the monitor reads `target_lang.json` and uses:
 - `all_languages_results.json` as the baseline and incrementally updated JSON
   results.
 - `all_languages_results.xlsx` as the incrementally updated workbook.
-- `monitor.log` for execution logs.
+
+All log output is printed directly to the console by default. An optional `.log` file can be specified via `--log-file`.
 
 These defaults refer to files in the project directory. Relative paths passed
 to the monitor are also resolved from the project directory.
@@ -337,21 +365,26 @@ to the monitor are also resolved from the project directory.
 | Option | Default | Purpose |
 | --- | --- | --- |
 | `-h`, `--help` | — | Show help and exit. |
-| `--token TOKEN` | `.env` / environment | Telegram bot token. Command-line value takes precedence over `.env`, then the environment variable. |
-| `--chat-id CHAT_ID` | `.env` / environment | Telegram chat ID, using the same precedence as `--token`. |
-| `--interval SECONDS` | `3600` or `.env` setting `MONITOR_INTERVAL_SECONDS` | Seconds between continuous cycles. |
+| `--recipient-email EMAIL` | `.env` / `RECIPIENT_EMAIL` | Recipient email address(es) for default notifications. |
+| `--sender-email EMAIL` | `.env` / `SENDER_EMAIL` | Sender email address for default notifications. |
+| `--email-password PWD` | `.env` / `EMAIL_PASSWORD` | App password for sender email account. |
+| `--disable-email`, `--no-email` | Off | Disable default email notifications. |
+| `--test-email` | Off | Send a test Email notification and exit. |
+| `--token TOKEN` | `.env` / `TELEGRAM_BOT_TOKEN` | Optional Telegram bot token. |
+| `--chat-id CHAT_ID` | `.env` / `TELEGRAM_CHAT_ID` | Optional Telegram chat ID. |
+| `--test-telegram` | Off | Send a test Telegram notification and exit. |
+| `--interval SECONDS` | `3600` or `.env` `MONITOR_INTERVAL_SECONDS` | Seconds between continuous cycles. |
 | `-l`, `--language TEXT` | All languages | Filter by a case-insensitive language-name substring or exact GUID. |
 | `-n`, `--limit N` | No limit | Check at most `N` selected languages per cycle. |
 | `--roles {Tolk,Vertaler,both} [...]` | `Tolk` | Select one or more profession roles. |
 | `-w`, `--scan-workers N` | `8` | Number of worker threads scanning languages in parallel. |
 | `-c`, `--concurrency N` | `10` | Parallelism for fetching profile details of new records. |
 | `--once` | Off | Run one check cycle and exit. |
-| `--test-telegram` | Off | Send a test Telegram notification and exit. |
 | `--known-file PATH` | `known_records.json` | Registration tracking file. |
 | `--baseline-file PATH` | `all_languages_results.json` | Existing results JSON used to seed the initial baseline. |
 | `--output PATH` | `all_languages_results.json` | JSON results file to update when new registrations are found. |
 | `--excel-output PATH` | `all_languages_results.xlsx` | Excel workbook to update when new registrations are found. |
-| `--log-file PATH` | `monitor.log` | Log output path. |
+| `--log-file PATH` | None | Optional path to .log file (console only by default). |
 | `-v`, `--verbose` | Off | Enable debug-level logging. |
 
 See all monitor options with:
