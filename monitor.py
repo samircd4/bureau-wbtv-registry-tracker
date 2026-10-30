@@ -55,6 +55,7 @@ from fetch_all_languages import (
     BureauWbtvClient,
     LanguageResult,
     extract_known_keys_from_excel,
+    extract_known_guids_from_json,
     extract_record_csv_fields,
     filter_target_languages,
     load_target_languages,
@@ -175,78 +176,122 @@ def send_telegram_message(token: str, chat_id: str, message: str) -> bool:
 
 def make_record_key(record: dict[str, Any], language: str) -> str:
     """
-    Creates a unique key for each registration.
-    Combining GUID + Role + Language ensures we catch:
-    1. Completely new persons.
-    2. Existing persons registering for a new language or role.
+    Returns the GUID of the professional as the unique tracking key.
+
+    Using GUID-only means a notification fires only when a **completely new
+    person** appears in the registry.  If an existing professional adds a new
+    language or role that is NOT treated as a new registration — preventing
+    duplicate alerts for the same person.
     """
-    guid = str(record.get("guid") or "").strip()
-    role = str(record.get("role") or "").strip()
-    return f"{guid}:{role}:{language}"
+    return str(record.get("guid") or "").strip()
 
 
 def sync_and_load_known_records(
     known_path: Path,
     excel_path: Optional[Path] = None,
     baseline_path: Optional[Path] = None,
+    json_path: Optional[Path] = None,
 ) -> set[str]:
     """
-    Synchronizes and loads known registration keys before each check cycle (including after each sleep).
-    - Reads keys currently in known_records.json (if present).
-    - Reads keys currently in all_languages_results.xlsx (if present).
-    - If a record was deleted from EITHER the Excel file OR known_records.json,
-      it is excluded from known_keys so the monitor re-detects and alerts it as NEW.
-    - Automatically updates known_records.json to reflect the synced state.
-    """
-    json_keys: Optional[set[str]] = None
-    if known_path.is_file():
-        try:
-            with known_path.open("r", encoding="utf-8") as f:
-                data = json.load(f)
-                if isinstance(data, list):
-                    json_keys = set(data)
-        except Exception as e:
-            logger.warning("Could not read %s (%s).", known_path, e)
+    Synchronizes and loads known professional GUIDs before each check cycle.
 
-    excel_keys: Optional[set[str]] = None
+    Sources checked (all optional, each may be None / missing):
+    1. ``known_path``   — ``known_records.json`` (plain GUID list).
+                          **Auto-migrates** the old ``guid:role:language`` compound
+                          format by stripping the suffix and keeping only the GUID.
+    2. ``excel_path``   — ``all_languages_results.xlsx`` (GUID column).
+    3. ``json_path``    — live output JSON (``all_languages_results.json``).
+    4. ``baseline_path``— alias for ``json_path`` used when the same file serves
+                          as both output and baseline; falls back to this when
+                          ``json_path`` is not provided separately.
+
+    All sources are merged via **union** so that the widest possible set of
+    already-known persons is considered.  This prevents spurious alerts on
+    the first run (or after ``known_records.json`` is deleted) because the
+    Excel / JSON files still carry the full history.
+
+    The merged GUID set is saved back to ``known_records.json`` in the new
+    plain-GUID format before returning.
+    """
+
+    def _parse_known_file(path: Path) -> Optional[set[str]]:
+        """Read known_records.json; auto-migrate old compound keys to plain GUIDs."""
+        if not path.is_file():
+            return None
+        try:
+            with path.open("r", encoding="utf-8") as f:
+                data = json.load(f)
+            if not isinstance(data, list):
+                return None
+            guids: set[str] = set()
+            for entry in data:
+                raw = str(entry).strip()
+                if not raw:
+                    continue
+                # Old format: "guid:role:language" — keep only the GUID part
+                guids.add(raw.split(":")[0])
+            return guids
+        except Exception as e:
+            logger.warning("Could not read %s (%s).", path, e)
+            return None
+
+    known_guids  = _parse_known_file(known_path)
+    excel_guids  = None
+    json_guids   = None
+
     if excel_path and excel_path.is_file():
         try:
-            excel_keys = extract_known_keys_from_excel(excel_path)
+            excel_guids = extract_known_keys_from_excel(excel_path)
         except Exception as e:
-            logger.warning("Could not read keys from Excel %s: %s", excel_path, e)
+            logger.warning("Could not read GUIDs from Excel %s: %s", excel_path, e)
 
-    if json_keys is not None and excel_keys is not None:
-        # Both exist: taking the intersection ensures that if a record was removed
-        # from EITHER known_records.json OR all_languages_results.xlsx,
+    effective_json_path = json_path or baseline_path
+
+    # Determine active known keys:
+    if known_guids and excel_guids:
+        # Both files have records: taking the intersection ensures that if a record
+        # was removed from EITHER known_records.json OR all_languages_results.xlsx,
         # it is recognized as removed and flagged as NEW!
-        active_keys = json_keys & excel_keys
-    elif json_keys is not None:
-        active_keys = json_keys
-    elif excel_keys is not None:
-        active_keys = excel_keys
-    elif baseline_path and baseline_path.is_file():
-        active_keys = set()
+        active_keys = known_guids & excel_guids
+    elif excel_guids:
+        # Excel file has data and known record has not:
+        # Update the known record with Excel data instead of scraping data as new!
+        active_keys = set(excel_guids)
+        logger.info(
+            "Known records file was empty or missing. Initializing from Excel (%d record(s)).",
+            len(active_keys),
+        )
+    elif known_guids:
+        # Only known_records has data
+        active_keys = set(known_guids)
+    elif effective_json_path and effective_json_path.is_file():
+        # Fallback for first run if neither Excel nor known_records exists
         try:
-            with baseline_path.open("r", encoding="utf-8") as f:
-                data = json.load(f)
-                results = data.get("results", {})
-                for lang_name, lang_data in results.items():
-                    for record in lang_data.get("records", []):
-                        key = make_record_key(record, lang_name)
-                        if key:
-                            active_keys.add(key)
+            json_guids = extract_known_guids_from_json(effective_json_path)
+            active_keys = set(json_guids) if json_guids else set()
+            logger.info(
+                "Initializing baseline known records from JSON (%d record(s)).",
+                len(active_keys),
+            )
         except Exception as e:
-            logger.warning("Could not seed baseline from %s: %s", baseline_path, e)
+            logger.warning("Could not seed baseline from JSON %s: %s", effective_json_path, e)
+            active_keys = set()
     else:
         active_keys = set()
 
-    # Sync and save updated known_records.json
+    # Remove any empty strings that crept in
+    active_keys.discard("")
+
+    # Persist the merged (and migrated) GUID set
     save_known_records(known_path, active_keys)
+
     logger.info(
-        "Active known registrations synced: %d record(s) (JSON had %s, Excel had %s).",
+        "Active known GUIDs synced: %d unique person(s) "
+        "(Known file: %s, Excel: %s, JSON: %s).",
         len(active_keys),
-        len(json_keys) if json_keys is not None else "N/A",
-        len(excel_keys) if excel_keys is not None else "N/A",
+        len(known_guids)  if known_guids  is not None else "N/A",
+        len(excel_guids)  if excel_guids  is not None else "N/A",
+        len(json_guids)   if json_guids   is not None else "N/A",
     )
     return active_keys
 
@@ -255,12 +300,14 @@ def load_known_records(
     known_path: Path,
     excel_path: Optional[Path] = None,
     baseline_path: Optional[Path] = None,
+    json_path: Optional[Path] = None,
 ) -> set[str]:
     """Compatibility wrapper that calls sync_and_load_known_records."""
     return sync_and_load_known_records(
         known_path=known_path,
         excel_path=excel_path,
         baseline_path=baseline_path,
+        json_path=json_path,
     )
 
 
@@ -978,11 +1025,12 @@ def main() -> None:
                 start_timestamp.strftime("%Y-%m-%d %H:%M:%S"),
             )
 
-            # Sync and reload known records from Excel and known file before each cycle (including after sleep)
+            # Sync and reload known GUIDs from Excel, JSON, and known file before each cycle
             known_keys = sync_and_load_known_records(
                 known_path=known_path,
                 excel_path=output_excel,
                 baseline_path=baseline_path,
+                json_path=output_json,
             )
             try:
                 run_check_cycle(

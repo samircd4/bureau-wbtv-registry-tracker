@@ -1425,7 +1425,12 @@ def export_results_to_excel(
 
 
 def extract_known_keys_from_excel(excel_path: Path) -> set[str]:
-    """Reads all existing registration keys (guid:role:language) from Excel using pandas."""
+    """Reads all existing professional GUIDs from Excel using pandas.
+
+    Returns a set of plain GUID strings (e.g. ``{"43628621632037584", ...}``).
+    One notification per *person* — adding a new language to an existing
+    professional does not re-trigger an alert.
+    """
     if not excel_path.is_file():
         return set()
     try:
@@ -1433,13 +1438,35 @@ def extract_known_keys_from_excel(excel_path: Path) -> set[str]:
         keys: set[str] = set()
         for _, row in df.iterrows():
             g = str(row.get("GUID") or "").strip()
-            r = str(row.get("Role") or "").strip()
-            l = str(row.get("Language") or "").strip()
-            if g and l:
-                keys.add(f"{g}:{r}:{l}")
+            if g:
+                keys.add(g)
         return keys
     except Exception as e:
-        logger.warning("Could not read known keys from Excel %s: %s", excel_path, e)
+        logger.warning("Could not read known GUIDs from Excel %s: %s", excel_path, e)
+        return set()
+
+
+def extract_known_guids_from_json(json_path: Path) -> set[str]:
+    """Reads all known professional GUIDs from a results JSON file.
+
+    Iterates through ``results[lang_name]["records"]`` and collects each
+    ``guid`` field.  Gracefully handles missing files or malformed JSON.
+    Returns a set of plain GUID strings.
+    """
+    if not json_path.is_file():
+        return set()
+    try:
+        with json_path.open("r", encoding="utf-8") as f:
+            data = json.load(f)
+        guids: set[str] = set()
+        for lang_data in data.get("results", {}).values():
+            for record in lang_data.get("records", []):
+                g = str(record.get("guid") or "").strip()
+                if g:
+                    guids.add(g)
+        return guids
+    except Exception as e:
+        logger.warning("Could not read known GUIDs from JSON %s: %s", json_path, e)
         return set()
 
 

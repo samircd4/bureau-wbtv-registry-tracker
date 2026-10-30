@@ -420,6 +420,9 @@ uv run notification.py
 
 ### Step 3: Run the Monitor
 
+#### One-Click Launch (Windows)
+Double-click `monitor.bat` in the project folder to start continuous monitoring immediately without opening a terminal manually.
+
 #### Run Once (Single Check Cycle)
 ```powershell
 uv run monitor.py --once

@@ -7,4 +7,5 @@ details_cache.json
 known_records.json
 __pycache__/
 .vscode/
-final.xlsx
+*.xlsx
+*.zip

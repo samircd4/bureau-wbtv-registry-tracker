@@ -47,6 +47,7 @@ from fetch_all_languages import (
     export_results_to_csv,
     export_results_to_excel,
     extract_known_keys_from_excel,
+    extract_known_guids_from_json,
     extract_record_csv_fields,
     filter_target_languages,
     load_target_languages,
@@ -543,10 +544,10 @@ class TestResultOrganizationAndPersistence(unittest.TestCase):
             df = pd.read_excel(excel_path)
             self.assertEqual(len(df), 2)
 
-            # 4. Extract known keys from Excel
+            # 4. Extract known keys from Excel — now returns plain GUIDs
             keys = extract_known_keys_from_excel(excel_path)
-            self.assertIn("123:Tolk:Arabic", keys)
-            self.assertIn("456:Tolk:English", keys)
+            self.assertIn("123", keys)
+            self.assertIn("456", keys)
             self.assertEqual(len(keys), 2)
 
 
@@ -843,6 +844,254 @@ class TestLoggingSetup(unittest.TestCase):
         )
         self.assertFalse(failed)
         mock_server.login.assert_not_called()
+
+
+class TestGuidOnlyKeyBehaviour(unittest.TestCase):
+    """Tests for the GUID-only tracking key introduced to avoid per-language alerts."""
+
+    # ------------------------------------------------------------------ #
+    # make_record_key                                                       #
+    # ------------------------------------------------------------------ #
+
+    def test_make_record_key_returns_guid_only(self) -> None:
+        from monitor import make_record_key
+
+        record = {"guid": "12345", "role": "Tolk"}
+        key = make_record_key(record, "Arabic")
+        self.assertEqual(key, "12345")
+
+    def test_make_record_key_strips_whitespace(self) -> None:
+        from monitor import make_record_key
+
+        record = {"guid": "  99999  ", "role": "Vertaler"}
+        key = make_record_key(record, "French")
+        self.assertEqual(key, "99999")
+
+    def test_make_record_key_missing_guid_returns_empty(self) -> None:
+        from monitor import make_record_key
+
+        record = {"role": "Tolk"}
+        key = make_record_key(record, "Spanish")
+        self.assertEqual(key, "")
+
+    # ------------------------------------------------------------------ #
+    # extract_known_keys_from_excel                                         #
+    # ------------------------------------------------------------------ #
+
+    def test_extract_known_keys_from_excel_guid_only(self) -> None:
+        """extract_known_keys_from_excel now returns plain GUIDs, not compound keys."""
+        import pandas as pd
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            excel_path = Path(tmp_dir) / "test.xlsx"
+            df = pd.DataFrame([
+                {"GUID": "AAA", "Role": "Tolk",     "Language": "Arabic"},
+                {"GUID": "AAA", "Role": "Tolk",     "Language": "French"},  # same person, second lang
+                {"GUID": "BBB", "Role": "Vertaler", "Language": "German"},
+            ])
+            df.to_excel(excel_path, index=False)
+
+            keys = extract_known_keys_from_excel(excel_path)
+
+        # Should only contain the two unique GUIDs, NOT compound strings
+        self.assertEqual(keys, {"AAA", "BBB"})
+        self.assertNotIn("AAA:Tolk:Arabic", keys)
+        self.assertNotIn("AAA:Tolk:French", keys)
+
+    def test_extract_known_keys_from_excel_missing_file_returns_empty(self) -> None:
+        from pathlib import Path
+        keys = extract_known_keys_from_excel(Path("does_not_exist.xlsx"))
+        self.assertEqual(keys, set())
+
+    # ------------------------------------------------------------------ #
+    # extract_known_guids_from_json                                         #
+    # ------------------------------------------------------------------ #
+
+    def test_extract_known_guids_from_json(self) -> None:
+        """Reads GUIDs from a results JSON file across multiple languages."""
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            json_path = Path(tmp_dir) / "results.json"
+            data = {
+                "results": {
+                    "Arabic": {
+                        "records": [
+                            {"guid": "GUID_1", "role": "Tolk"},
+                            {"guid": "GUID_2", "role": "Tolk"},
+                        ]
+                    },
+                    "French": {
+                        "records": [
+                            {"guid": "GUID_1", "role": "Tolk"},   # same person — should deduplicate
+                            {"guid": "GUID_3", "role": "Vertaler"},
+                        ]
+                    },
+                }
+            }
+            json_path.write_text(json.dumps(data), encoding="utf-8")
+
+            guids = extract_known_guids_from_json(json_path)
+
+        self.assertEqual(guids, {"GUID_1", "GUID_2", "GUID_3"})
+
+    def test_extract_known_guids_from_json_missing_file_returns_empty(self) -> None:
+        guids = extract_known_guids_from_json(Path("does_not_exist.json"))
+        self.assertEqual(guids, set())
+
+    def test_extract_known_guids_from_json_malformed_returns_empty(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            bad_path = Path(tmp_dir) / "bad.json"
+            bad_path.write_text("{ not valid json", encoding="utf-8")
+            guids = extract_known_guids_from_json(bad_path)
+        self.assertEqual(guids, set())
+
+    # ------------------------------------------------------------------ #
+    # sync_and_load_known_records — auto-migration                         #
+    # ------------------------------------------------------------------ #
+
+    def test_sync_migrates_old_compound_keys_to_guids(self) -> None:
+        """Old 'guid:role:lang' entries in known_records.json are auto-migrated."""
+        from monitor import sync_and_load_known_records
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            known_path = Path(tmp_dir) / "known_records.json"
+            # Old format: compound keys
+            old_keys = [
+                "GUID_A:Tolk:Arabic",
+                "GUID_A:Tolk:French",   # same person, second language
+                "GUID_B:Vertaler:German",
+            ]
+            known_path.write_text(json.dumps(old_keys), encoding="utf-8")
+
+            result = sync_and_load_known_records(known_path=known_path)
+
+            # Should deduplicate and strip to plain GUIDs
+            self.assertEqual(result, {"GUID_A", "GUID_B"})
+
+            # known_records.json must be rewritten in new plain-GUID format
+            saved = json.loads(known_path.read_text(encoding="utf-8"))
+            self.assertCountEqual(saved, ["GUID_A", "GUID_B"])
+
+    def test_sync_first_run_seeds_from_excel_when_known_empty(self) -> None:
+        """If Excel has data and known_records has not, update known_records from Excel."""
+        import pandas as pd
+        from monitor import sync_and_load_known_records
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            known_path = Path(tmp_dir) / "known_records.json"  # does NOT exist yet
+            excel_path = Path(tmp_dir) / "results.xlsx"
+
+            # Excel has GUID_1 and GUID_2
+            df = pd.DataFrame([
+                {"GUID": "GUID_1", "Role": "Tolk",     "Language": "Arabic"},
+                {"GUID": "GUID_2", "Role": "Vertaler", "Language": "German"},
+            ])
+            df.to_excel(excel_path, index=False)
+
+            result = sync_and_load_known_records(
+                known_path=known_path,
+                excel_path=excel_path,
+            )
+
+            # Seeds from Excel and writes to known_records.json
+            self.assertEqual(result, {"GUID_1", "GUID_2"})
+            self.assertTrue(known_path.is_file())
+            saved = json.loads(known_path.read_text(encoding="utf-8"))
+            self.assertCountEqual(saved, ["GUID_1", "GUID_2"])
+
+    def test_sync_first_run_seeds_from_json_when_both_known_and_excel_missing(self) -> None:
+        """If neither known_records nor Excel exists, seed baseline from JSON."""
+        from monitor import sync_and_load_known_records
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            known_path = Path(tmp_dir) / "known_records.json"
+            json_path  = Path(tmp_dir) / "results.json"
+
+            json_data = {
+                "results": {
+                    "Spanish": {"records": [{"guid": "GUID_JSON_1", "role": "Tolk"}]},
+                }
+            }
+            json_path.write_text(json.dumps(json_data), encoding="utf-8")
+
+            result = sync_and_load_known_records(
+                known_path=known_path,
+                json_path=json_path,
+            )
+
+            self.assertEqual(result, {"GUID_JSON_1"})
+            self.assertTrue(known_path.is_file())
+
+    def test_sync_intersection_detects_deletion_from_known_records(self) -> None:
+        """Deleting a GUID from known_records.json excludes it so it gets re-scraped as NEW."""
+        import pandas as pd
+        from monitor import sync_and_load_known_records
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            known_path = Path(tmp_dir) / "known_records.json"
+            excel_path = Path(tmp_dir) / "results.xlsx"
+
+            # Excel has GUID_1 and GUID_2
+            df = pd.DataFrame([
+                {"GUID": "GUID_1", "Role": "Tolk", "Language": "Arabic"},
+                {"GUID": "GUID_2", "Role": "Tolk", "Language": "English"},
+            ])
+            df.to_excel(excel_path, index=False)
+
+            # User deleted GUID_2 from known_records.json (only GUID_1 remains)
+            known_path.write_text(json.dumps(["GUID_1"]), encoding="utf-8")
+
+            result = sync_and_load_known_records(known_path=known_path, excel_path=excel_path)
+
+            # GUID_2 is excluded from active keys -> will be scraped as NEW!
+            self.assertEqual(result, {"GUID_1"})
+            self.assertNotIn("GUID_2", result)
+
+    def test_sync_intersection_detects_deletion_from_excel(self) -> None:
+        """Deleting a row from Excel excludes it so it gets re-scraped as NEW."""
+        import pandas as pd
+        from monitor import sync_and_load_known_records
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            known_path = Path(tmp_dir) / "known_records.json"
+            excel_path = Path(tmp_dir) / "results.xlsx"
+
+            # known_records has GUID_1 and GUID_2
+            known_path.write_text(json.dumps(["GUID_1", "GUID_2"]), encoding="utf-8")
+
+            # User deleted GUID_2 row from Excel (only GUID_1 remains)
+            df = pd.DataFrame([{"GUID": "GUID_1", "Role": "Tolk", "Language": "Arabic"}])
+            df.to_excel(excel_path, index=False)
+
+            result = sync_and_load_known_records(known_path=known_path, excel_path=excel_path)
+
+            # GUID_2 is excluded from active keys -> will be scraped as NEW!
+            self.assertEqual(result, {"GUID_1"})
+            self.assertNotIn("GUID_2", result)
+
+    # ------------------------------------------------------------------ #
+    # New-person vs new-language detection logic                            #
+    # ------------------------------------------------------------------ #
+
+    def test_new_language_for_known_person_not_flagged(self) -> None:
+        """An existing person adding a new language should NOT produce a new key."""
+        from monitor import make_record_key
+
+        known_guids = {"GUID_A"}
+
+        # Simulate the same person appearing with a new language
+        record_new_lang = {"guid": "GUID_A", "role": "Tolk"}
+        key = make_record_key(record_new_lang, "NewLanguage")
+        self.assertIn(key, known_guids)   # should be silently skipped
+
+    def test_brand_new_person_is_flagged(self) -> None:
+        """A record with a GUID not in known_guids should be treated as new."""
+        from monitor import make_record_key
+
+        known_guids = {"GUID_A"}
+
+        record_new_person = {"guid": "GUID_B", "role": "Tolk"}
+        key = make_record_key(record_new_person, "Arabic")
+        self.assertNotIn(key, known_guids)
 
 
 if __name__ == "__main__":
